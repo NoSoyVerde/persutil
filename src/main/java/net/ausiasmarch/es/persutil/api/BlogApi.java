@@ -54,4 +54,14 @@ public class BlogApi {
         return ResponseEntity.ok(oBlogService.rellenaBlog());
     }
 
+    @GetMapping("/frase")
+    public ResponseEntity<Long> crearFraseAleatoria() {
+        try {
+            Long id = oBlogService.crearBlogConFraseAleatoria();
+            return ResponseEntity.ok(id);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1L);
+        }
+    }
+
 }

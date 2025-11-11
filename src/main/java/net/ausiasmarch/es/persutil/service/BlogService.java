@@ -14,11 +14,26 @@ public class BlogService {
     @Autowired
     BlogRepository oBlogRepository;
 
+    @Autowired
+    AleatorioService aleatorioService;
+
     public Long rellenaBlog() {
         BlogEntity oBlogEntity = new BlogEntity();
         oBlogEntity.setTitulo("Primer Post");
         oBlogEntity.setContenido("Este es el contenido de mi primer post en el blog.");
         oBlogEntity.setEtiquetas("etiqueta1, etiqueta2");
+        oBlogEntity.setFechaCreacion(LocalDateTime.now());
+        oBlogEntity.setFechaModificacion(null);
+        
+        BlogEntity savedEntity = oBlogRepository.save(oBlogEntity);
+        return savedEntity.getId();
+    }
+
+    public Long crearBlogConFraseAleatoria() {
+        BlogEntity oBlogEntity = new BlogEntity();
+        oBlogEntity.setTitulo(aleatorioService.generarTituloAleatorio());
+        oBlogEntity.setContenido(aleatorioService.generarFraseAleatoria());
+        oBlogEntity.setEtiquetas(aleatorioService.generarEtiquetasAleatorias());
         oBlogEntity.setFechaCreacion(LocalDateTime.now());
         oBlogEntity.setFechaModificacion(null);
         
