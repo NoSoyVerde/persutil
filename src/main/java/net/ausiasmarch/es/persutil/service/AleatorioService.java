@@ -92,7 +92,7 @@ public class AleatorioService {
         ArrayList<String> palabrasMezcladas = new ArrayList<>(palabras);
         Collections.shuffle(palabrasMezcladas);
         StringBuilder frase = new StringBuilder();
-        
+
         for (int i = 0; i < 5 && i < palabrasMezcladas.size(); i++) {
             if (i > 0) {
                 frase.append(" ");
@@ -101,10 +101,10 @@ public class AleatorioService {
         }
         String fraseCompleta = frase.toString();
         if (!fraseCompleta.isEmpty()) {
-            fraseCompleta = fraseCompleta.substring(0, 1).toUpperCase() + 
-                           fraseCompleta.substring(1) + ".";
+            fraseCompleta = fraseCompleta.substring(0, 1).toUpperCase() +
+                    fraseCompleta.substring(1) + ".";
         }
-        
+
         return fraseCompleta;
     }
 
@@ -113,11 +113,11 @@ public class AleatorioService {
         Collections.shuffle(etiquetasDisponibles);
         int numEtiquetas = generarNumeroAleatorio(1, 3);
         ArrayList<String> etiquetasSeleccionadas = new ArrayList<>();
-        
+
         for (int i = 0; i < numEtiquetas && i < etiquetasDisponibles.size(); i++) {
             etiquetasSeleccionadas.add(etiquetasDisponibles.get(i));
         }
-        
+
         return String.join(", ", etiquetasSeleccionadas);
     }
 
@@ -128,7 +128,7 @@ public class AleatorioService {
         oBlogEntity.setEtiquetas("etiqueta1, etiqueta2");
         oBlogEntity.setFechaCreacion(LocalDateTime.now());
         oBlogEntity.setFechaModificacion(null);
-        
+
         BlogEntity savedEntity = oBlogRepository.save(oBlogEntity);
         return savedEntity.getId();
     }
@@ -140,7 +140,7 @@ public class AleatorioService {
         oBlogEntity.setEtiquetas(generarEtiquetasAleatorias());
         oBlogEntity.setFechaCreacion(LocalDateTime.now());
         oBlogEntity.setFechaModificacion(null);
-        
+
         BlogEntity savedEntity = oBlogRepository.save(oBlogEntity);
         return savedEntity.getId();
     }
