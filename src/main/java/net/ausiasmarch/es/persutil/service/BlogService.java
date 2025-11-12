@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import net.ausiasmarch.es.persutil.entity.BlogEntity;
@@ -74,6 +76,27 @@ public class BlogService {
         oBlogEntity.setFechaModificacion(null);
         oBlogRepository.save(oBlogEntity);
         return oBlogRepository.count();
+    }
+
+    public Page<BlogEntity> getAll(Pageable pageable) {
+        return oBlogRepository.findAll(pageable);
+    }
+
+    public java.util.List<BlogEntity> getAll() {
+        return oBlogRepository.findAll();
+    }
+
+    public Page<BlogEntity> getAllByCategory(String category, Pageable pageable) {
+        // Buscar blogs que contengan la categoría en las etiquetas
+        return oBlogRepository.findByEtiquetasContainingIgnoreCase(category, pageable);
+    }
+
+    public Page<BlogEntity> getAllByTitulo(String titulo, Pageable pageable) {
+        return oBlogRepository.findByTituloContainingIgnoreCase(titulo, pageable);
+    }
+
+    public Page<BlogEntity> getAllByContenido(String contenido, Pageable pageable) {
+        return oBlogRepository.findByContenidoContainingIgnoreCase(contenido, pageable);
     }
 
     public BlogEntity get(Long id) {
