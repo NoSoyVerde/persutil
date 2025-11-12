@@ -1,8 +1,13 @@
 package net.ausiasmarch.es.persutil.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import net.ausiasmarch.es.persutil.entity.BlogEntity;
+import net.ausiasmarch.es.persutil.repository.BlogRepository;
 
 @Service
 public class AleatorioService {
@@ -10,6 +15,9 @@ public class AleatorioService {
     private final ArrayList<String> palabras = new ArrayList<>();
     private final ArrayList<String> titulos = new ArrayList<>();
     private final ArrayList<String> etiquetas = new ArrayList<>();
+
+    @Autowired
+    BlogRepository oBlogRepository;
 
     public AleatorioService() {
         inicializarPalabras();
@@ -111,5 +119,29 @@ public class AleatorioService {
         }
         
         return String.join(", ", etiquetasSeleccionadas);
+    }
+
+    public Long rellenaBlog() {
+        BlogEntity oBlogEntity = new BlogEntity();
+        oBlogEntity.setTitulo("Primer Post");
+        oBlogEntity.setContenido("Este es el contenido de mi primer post en el blog.");
+        oBlogEntity.setEtiquetas("etiqueta1, etiqueta2");
+        oBlogEntity.setFechaCreacion(LocalDateTime.now());
+        oBlogEntity.setFechaModificacion(null);
+        
+        BlogEntity savedEntity = oBlogRepository.save(oBlogEntity);
+        return savedEntity.getId();
+    }
+
+    public Long crearBlogConFraseAleatoria() {
+        BlogEntity oBlogEntity = new BlogEntity();
+        oBlogEntity.setTitulo(generarTituloAleatorio());
+        oBlogEntity.setContenido(generarFraseAleatoria());
+        oBlogEntity.setEtiquetas(generarEtiquetasAleatorias());
+        oBlogEntity.setFechaCreacion(LocalDateTime.now());
+        oBlogEntity.setFechaModificacion(null);
+        
+        BlogEntity savedEntity = oBlogRepository.save(oBlogEntity);
+        return savedEntity.getId();
     }
 }

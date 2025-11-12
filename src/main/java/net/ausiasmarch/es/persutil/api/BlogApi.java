@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.ausiasmarch.es.persutil.service.AleatorioService;
-import net.ausiasmarch.es.persutil.service.BlogService;
 
 @RestController
 @RequestMapping("/blog")
@@ -17,9 +16,6 @@ public class BlogApi {
 
     @Autowired
     AleatorioService aleatorioService;
-
-    @Autowired
-    BlogService oBlogService;
 
     @GetMapping("/saludar")
     public ResponseEntity<String> saludar() {
@@ -51,13 +47,13 @@ public class BlogApi {
 
     @GetMapping("/rellenauno")
     public ResponseEntity<Long> rellenaUno() {
-        return ResponseEntity.ok(oBlogService.rellenaBlog());
+        return ResponseEntity.ok(aleatorioService.rellenaBlog());
     }
 
     @GetMapping("/frase")
     public ResponseEntity<Long> crearFraseAleatoria() {
         try {
-            Long id = oBlogService.crearBlogConFraseAleatoria();
+            Long id = aleatorioService.crearBlogConFraseAleatoria();
             return ResponseEntity.ok(id);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1L);
