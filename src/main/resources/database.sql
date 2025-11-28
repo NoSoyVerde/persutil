@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: database:3306
--- Tiempo de generacion: 10-11-2025 a las 11:28:03
--- Version del servidor: 8.4.5
--- Version de PHP: 8.2.28
+-- Tiempo de generación: 10-11-2025 a las 11:28:03
+-- Versión del servidor: 8.4.5
+-- Versión de PHP: 8.2.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,7 +46,7 @@ CREATE TABLE `alfonso_respuesta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci;
 
 --
--- Indices para tablas volcadas
+-- Índices para tablas volcadas
 --
 
 --
