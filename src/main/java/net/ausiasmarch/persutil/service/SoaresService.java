@@ -8,11 +8,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import net.ausiasmarch.persutil.entity.SoaresEntity;
 import net.ausiasmarch.persutil.repository.SoaresRepository;
-import net.ausiasmarch.persutil.service.SoaresAleatorioService;
 
 @Service
 public class SoaresService {
@@ -23,7 +23,11 @@ public class SoaresService {
     @Autowired
     SoaresAleatorioService oSoaresAleatorioService;
 
-    public SoaresEntity get(Long id) {
+    public Page<SoaresEntity> getPagePendientes(Pageable oPageable) {
+        return oSoaresRepository.findByPublicacionFalse(oPageable);
+    }
+
+    public SoaresEntity get(@NonNull Long id) {
         return oSoaresRepository.findById(id).orElse(null);
     }
 
@@ -34,11 +38,12 @@ public class SoaresService {
         if (oSoaresEntity.getPublicacion() == null) {
             oSoaresEntity.setPublicacion(false);
         }
-        return oSoaresRepository.save(oSoaresEntity).getId();
+        SoaresEntity saved = oSoaresRepository.save(oSoaresEntity);
+        return saved.getId();
     }
 
     public SoaresEntity update(SoaresEntity oSoaresEntity) {
-        SoaresEntity oSoaresEntityDB = this.get(oSoaresEntity.getId());
+        SoaresEntity oSoaresEntityDB = this.get(oSoaresEntity.getId()); // getId() nunca debe ser null en update
         if (oSoaresEntityDB != null) {
             oSoaresEntityDB.setPreguntas(oSoaresEntity.getPreguntas());
             oSoaresEntityDB.setPublicacion(oSoaresEntity.getPublicacion());
@@ -49,12 +54,12 @@ public class SoaresService {
         }
     }
 
-    public Long delete(Long id) {
+    public Long delete(@NonNull Long id) {
         oSoaresRepository.deleteById(id);
         return id;
     }
 
-    public Page<SoaresEntity> getPage(Pageable oPageable, String filter) {
+    public Page<SoaresEntity> getPage(@NonNull Pageable oPageable, String filter) {
         if (filter == null || filter.isEmpty()) {
             return oSoaresRepository.findAll(oPageable);
         } else {

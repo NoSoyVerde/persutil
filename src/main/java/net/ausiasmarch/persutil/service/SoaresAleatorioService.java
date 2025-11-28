@@ -2,7 +2,6 @@ package net.ausiasmarch.persutil.service;
 
 import java.time.LocalDateTime;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +11,7 @@ public class SoaresAleatorioService {
     @Autowired
     AleatorioService oAleatorioService;
 
+    // No hice con java separe archivo para facilitarme el mantenimiento
     private final String[] PREGUNTAS_NEURO = {
         "Si la mente es un universo, ¿cuál es la estrella que guía tu conciencia?",
         "¿Cómo se reescribe el guion de un recuerdo que ya no te sirve?",

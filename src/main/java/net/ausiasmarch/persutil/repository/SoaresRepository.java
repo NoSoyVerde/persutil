@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import net.ausiasmarch.persutil.entity.SoaresEntity;
 
 public interface SoaresRepository extends JpaRepository<SoaresEntity, Long> {
+    Page<SoaresEntity> findByPublicacionFalse(Pageable pageable);
 
     Page<SoaresEntity> findByPublicacionTrue(Pageable oPageable);
 
