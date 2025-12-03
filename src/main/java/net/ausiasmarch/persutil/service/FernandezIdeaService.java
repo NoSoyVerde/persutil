@@ -1,7 +1,5 @@
 package net.ausiasmarch.persutil.service;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +21,7 @@ public class FernandezIdeaService {
             idea.setComentario(comentarios[(int)(Math.random()*comentarios.length)] + " " + i);
             idea.setCategoria(categorias[(int)(Math.random()*categorias.length)]);
             idea.setPublico(Math.random() > 0.5);
-            idea.setFechaCreacion(LocalDateTime.now());
-            idea.setFechaModificacion(LocalDateTime.now());
+            // @PrePersist automáticamente establece fechas
             oIdeaRepository.save(idea);
         }
         return oIdeaRepository.count();
@@ -40,8 +37,7 @@ public class FernandezIdeaService {
     }
 
     public Long create(FernandezIdeaEntity ideaEntity) {
-        ideaEntity.setFechaCreacion(LocalDateTime.now());
-        ideaEntity.setFechaModificacion(LocalDateTime.now());
+        // @PrePersist automáticamente establece fechas
         if (ideaEntity.getPublico() == null) {
             ideaEntity.setPublico(true);
         }
@@ -56,7 +52,7 @@ public class FernandezIdeaService {
         existingIdea.setComentario(ideaEntity.getComentario());
         existingIdea.setCategoria(ideaEntity.getCategoria());
         existingIdea.setPublico(ideaEntity.getPublico());
-        existingIdea.setFechaModificacion(LocalDateTime.now());
+        // @PreUpdate automáticamente actualiza fechaModificacion
         oIdeaRepository.save(existingIdea);
         return existingIdea.getId();
     }
@@ -91,6 +87,30 @@ public class FernandezIdeaService {
 
     public Long count() {
         return oIdeaRepository.count();
+    }
+
+    // ----------------------------PUBLICACIÓN---------------------------------
+
+    /**
+     * Actualiza solo el campo publico de una idea
+     */
+    public FernandezIdeaEntity setPublico(Long id, Boolean publico) {
+        FernandezIdeaEntity idea = oIdeaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Idea no encontrada con id: " + id));
+        idea.setPublico(publico);
+        // @PreUpdate automáticamente actualiza fechaModificacion
+        return oIdeaRepository.save(idea);
+    }
+
+    /**
+     * Invierte el valor del campo publico (toggle)
+     */
+    public FernandezIdeaEntity togglePublico(Long id) {
+        FernandezIdeaEntity idea = oIdeaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Idea no encontrada con id: " + id));
+        idea.setPublico(!idea.getPublico());
+        // @PreUpdate automáticamente actualiza fechaModificacion
+        return oIdeaRepository.save(idea);
     }
 
 }

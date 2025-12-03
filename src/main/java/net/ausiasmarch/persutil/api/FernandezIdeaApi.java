@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.ausiasmarch.persutil.dto.PublicoDto;
 import net.ausiasmarch.persutil.entity.FernandezIdeaEntity;
 import net.ausiasmarch.persutil.service.FernandezIdeaService;
 
@@ -86,6 +88,36 @@ public class FernandezIdeaApi {
     @GetMapping("/count")
     public ResponseEntity<Long> count(@RequestParam(name = "publico", required = false) Boolean publico) {
         return ResponseEntity.ok(oIdeaService.countFiltered(publico));
+    }
+
+    // ----------------------------ENDPOINTS DE PUBLICACIÓN---------------------------------
+
+    /**
+     * Actualizar solo el campo publico de una idea (requiere autenticación)
+     * POST /idea/{id}/publico con body: { "publico": true/false }
+     */
+    @PatchMapping("/{id}/publico")
+    public ResponseEntity<?> setPublico(@PathVariable Long id, @RequestBody PublicoDto dto) {
+        try {
+            FernandezIdeaEntity idea = oIdeaService.setPublico(id, dto.getPublico());
+            return ResponseEntity.ok(idea);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("{\"error\": \"" + e.getMessage() + "\"}");
+        }
+    }
+
+    /**
+     * Toggle del campo publico (invierte el valor actual)
+     * PATCH /idea/{id}/toggle
+     */
+    @PatchMapping("/{id}/toggle")
+    public ResponseEntity<?> togglePublico(@PathVariable Long id) {
+        try {
+            FernandezIdeaEntity idea = oIdeaService.togglePublico(id);
+            return ResponseEntity.ok(idea);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("{\"error\": \"" + e.getMessage() + "\"}");
+        }
     }
 
 }

@@ -319,6 +319,21 @@ CREATE TABLE `zanon` (
   `publico` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `id` bigint NOT NULL,
+  `username` varchar(50) CHARACTER SET utf32 COLLATE utf32_unicode_ci NOT NULL UNIQUE,
+  `password` varchar(255) CHARACTER SET utf32 COLLATE utf32_unicode_ci NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT '0',
+  `fecha_creacion` datetime NOT NULL,
+  `fecha_modificacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -439,6 +454,13 @@ ALTER TABLE `zanon`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -551,8 +573,26 @@ ALTER TABLE `uski_libro_visita`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `zanon`
 --
 ALTER TABLE `zanon`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+-- --------------------------------------------------------
+
+--
+-- Datos iniciales para tabla `usuario`
+-- Passwords: admin123 / user123 (BCrypt hash)
+--
+
+INSERT INTO `usuario` (`username`, `password`, `admin`, `fecha_creacion`, `fecha_modificacion`) VALUES
+('admin', '$2a$10$N9qo8uLOickgx2ZMRZoMye4jy8K6.DqJQz5CXvxCHKhxhxYwdH8Uu', TRUE, NOW(), NOW()),
+('user', '$2a$10$N9qo8uLOickgx2ZMRZoMye4jy8K6.DqJQz5CXvxCHKhxhxYwdH8Uu', FALSE, NOW(), NOW());
+
 COMMIT;
