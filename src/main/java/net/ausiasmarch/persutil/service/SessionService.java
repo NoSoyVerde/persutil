@@ -9,7 +9,6 @@ import net.ausiasmarch.persutil.helper.JWTHelper;
 @Service
 public class SessionService {
 
-
     public TokenBean login(SessionBean oSessionBean) {
         // Lógica de autenticación aquí
         // hardcoded
@@ -20,5 +19,17 @@ public class SessionService {
             return null; // Autenticación fallida Rafa -> cambiar por excepcion
         }
     }
-    
+
+    public boolean isSessionActive() {
+        String username = (String) org.springframework.web.context.request.RequestContextHolder.currentRequestAttributes()
+                .getAttribute("username", org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST);
+        return username != null;
+    }
+
+    public String getUsername() {
+        String username = (String) org.springframework.web.context.request.RequestContextHolder.currentRequestAttributes()
+                .getAttribute("username", org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST);
+        return username;
+    }
+
 }
