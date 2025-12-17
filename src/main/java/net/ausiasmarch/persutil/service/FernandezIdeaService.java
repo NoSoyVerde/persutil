@@ -158,4 +158,13 @@ public class FernandezIdeaService {
         return oIdeaRepository.count();
     }
 
+    public Long empty() {
+        if (!oSessionService.isSessionActive()) {
+            throw new UnauthorizedException("No active session");
+        }
+        long count = oIdeaRepository.count();
+        oIdeaRepository.deleteAll();
+        return count;
+    }
+
 }

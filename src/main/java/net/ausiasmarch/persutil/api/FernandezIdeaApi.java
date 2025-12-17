@@ -108,4 +108,10 @@ public class FernandezIdeaApi {
         return ResponseEntity.ok(oIdeaService.despublicar(id));
     }
 
+    // vaciar tabla (elimina todos los registros)
+    @DeleteMapping("/empty")
+    public ResponseEntity<Long> empty() {
+        return ResponseEntity.ok(oIdeaService.empty());
+    }
+
 }
